@@ -8,8 +8,8 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import service.ISlotMachineService;
 import static service.ISlotMachineService.HOST;
-import static service.ISlotMachineService.NOME;
-import static service.ISlotMachineService.PORTA;
+import static service.ISlotMachineService.NAME;
+import static service.ISlotMachineService.PORT;
 
 /**
  *
@@ -33,44 +33,55 @@ public class SlotMachineForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        txtHora = new javax.swing.JTextField();
-        txtHora1 = new javax.swing.JTextField();
-        txtHora2 = new javax.swing.JTextField();
+        btnStart = new javax.swing.JButton();
+        txtNumber3 = new javax.swing.JTextField();
+        txtNumber1 = new javax.swing.JTextField();
+        txtNumber2 = new javax.swing.JTextField();
+        btnHistory = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnStart.setText("Start");
+        btnStart.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnStartActionPerformed(evt);
             }
         });
 
-        txtHora.setText("jTextField1");
+        txtNumber3.setEditable(false);
+        txtNumber3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        txtHora1.setText("jTextField1");
-        txtHora1.addActionListener(new java.awt.event.ActionListener() {
+        txtNumber1.setEditable(false);
+        txtNumber1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtNumber1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtHora1ActionPerformed(evt);
+                txtNumber1ActionPerformed(evt);
             }
         });
 
-        txtHora2.setText("jTextField1");
+        txtNumber2.setEditable(false);
+        txtNumber2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        btnHistory.setText("jButton1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(56, 56, 56)
-                .addComponent(txtHora1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtHora2, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtHora, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnHistory))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(56, 56, 56)
+                        .addComponent(txtNumber1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNumber2, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNumber3, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                        .addComponent(btnStart)))
                 .addGap(22, 22, 22))
         );
         layout.setVerticalGroup(
@@ -78,30 +89,38 @@ public class SlotMachineForm extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(72, 72, 72)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtHora, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtHora1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtHora2, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(85, Short.MAX_VALUE))
+                    .addComponent(txtNumber3, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNumber1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNumber2, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnStart, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                .addComponent(btnHistory)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartActionPerformed
         // TODO add your handling code here:
         try {
-            Registry srv = LocateRegistry.getRegistry(HOST,PORTA);
-            ISlotMachineService op = (ISlotMachineService)srv.lookup(NOME);
-            txtHora.setText(op.getHora());
+            Registry srv = LocateRegistry.getRegistry(HOST,PORT);
+            ISlotMachineService op = (ISlotMachineService)srv.lookup(NAME);
+            
+            int[] randomNumbers = op.getRandomNumbers();
+            
+            txtNumber1.setText(Integer.toString(randomNumbers[0]));
+            txtNumber2.setText(Integer.toString(randomNumbers[1]));
+            txtNumber3.setText(Integer.toString(randomNumbers[2]));
+            
         } catch (Exception e) {
             System.err.println("ERRO: " + e.getMessage());
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnStartActionPerformed
 
-    private void txtHora1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHora1ActionPerformed
+    private void txtNumber1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumber1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtHora1ActionPerformed
+    }//GEN-LAST:event_txtNumber1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -138,9 +157,10 @@ public class SlotMachineForm extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JTextField txtHora;
-    private javax.swing.JTextField txtHora1;
-    private javax.swing.JTextField txtHora2;
+    private javax.swing.JButton btnHistory;
+    private javax.swing.JButton btnStart;
+    private javax.swing.JTextField txtNumber1;
+    private javax.swing.JTextField txtNumber2;
+    private javax.swing.JTextField txtNumber3;
     // End of variables declaration//GEN-END:variables
 }
