@@ -8,6 +8,8 @@ import java.net.URL;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import javax.swing.Icon;
+import model.Play;
+import model.User;
 
 import service.ISlotMachineService;
 import static service.ISlotMachineService.HOST;
@@ -19,14 +21,16 @@ import static service.ISlotMachineService.PORT;
  * @author rault
  */
 public class SlotMachineForm extends javax.swing.JFrame {
-
+    
+    User user = new User("Raul Tavares Danielli", "raultavares27@outlook.com", 12.2, "raulzito123");
     /**
      * Creates new form SlotMachineForm
      */
     public SlotMachineForm() {
         initComponents();
         
-        
+        lblName.setText(user.getName());
+        lblMoney.setText(Double.toString(user.getMoney()));
     }   
 
     /**
@@ -40,10 +44,13 @@ public class SlotMachineForm extends javax.swing.JFrame {
 
         btnStart = new javax.swing.JButton();
         btnHistory = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        lblImage2 = new javax.swing.JLabel();
+        lblImage3 = new javax.swing.JLabel();
+        lblImage1 = new javax.swing.JLabel();
         lblResult = new javax.swing.JLabel();
+        lblName = new javax.swing.JLabel();
+        lblMoney = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -54,51 +61,76 @@ public class SlotMachineForm extends javax.swing.JFrame {
             }
         });
 
-        btnHistory.setText("jButton1");
+        btnHistory.setText("History");
+        btnHistory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHistoryActionPerformed(evt);
+            }
+        });
 
-        jLabel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        lblImage2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jLabel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        lblImage3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jLabel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        lblImage1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         lblResult.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        lblName.setText("Name");
+
+        lblMoney.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblMoney.setText("Value");
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 48)); // NOI18N
+        jLabel6.setText("Slot Machine Game");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(74, 74, 74)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblResult, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblMoney, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblResult, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblImage1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblImage2, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblImage3, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnStart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(40, 40, 40))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnStart, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblMoney, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnStart, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnHistory)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
-                .addComponent(lblResult, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32))
+                    .addComponent(lblImage2, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblImage3, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblImage1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnStart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblResult, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnHistory))
+                .addContainerGap())
         );
 
         pack();
@@ -119,16 +151,31 @@ public class SlotMachineForm extends javax.swing.JFrame {
                 "/images/img_monkey1.png",
             };
             
-            if (randomNumbers[0] == randomNumbers[1] && randomNumbers[1] == randomNumbers[2]) lblResult.setText("Congratss, you win the king cookie");
+            lblResult.setText(
+                randomNumbers[0] == randomNumbers[1] && randomNumbers[1] == randomNumbers[2] ? 
+                "Congratss, you win the king cookie" : 
+                ""
+            );
+           
+            lblImage1.setIcon(new javax.swing.ImageIcon(getClass().getResource(randomImages[randomNumbers[0]])));
+            lblImage2.setIcon(new javax.swing.ImageIcon(getClass().getResource(randomImages[randomNumbers[1]])));
+            lblImage3.setIcon(new javax.swing.ImageIcon(getClass().getResource(randomImages[randomNumbers[2]])));
             
-            jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource(randomImages[randomNumbers[0]])));
-            jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource(randomImages[randomNumbers[1]])));
-            jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource(randomImages[randomNumbers[2]])));
+            Play play = new Play(randomNumbers);
+            user.addPlay(play);
             
         } catch (Exception e) {
             System.err.println("ERRO: " + e.getMessage());
         }
     }//GEN-LAST:event_btnStartActionPerformed
+
+    private void btnHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistoryActionPerformed
+        // TODO add your handling code here:
+        
+        HistoryPlayForm historyPlays = new HistoryPlayForm(user.getPlays());
+        historyPlays.setVisible(true);
+        
+    }//GEN-LAST:event_btnHistoryActionPerformed
 
     /**
      * @param args the command line arguments
@@ -168,9 +215,12 @@ public class SlotMachineForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnHistory;
     private javax.swing.JButton btnStart;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel lblImage1;
+    private javax.swing.JLabel lblImage2;
+    private javax.swing.JLabel lblImage3;
+    private javax.swing.JLabel lblMoney;
+    private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblResult;
     // End of variables declaration//GEN-END:variables
 
