@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+/SlotMachineService/dist/
+/SlotMachineClient/nbproject/private/
+/SlotMachineServer/nbproject/private/
+/SlotMachineService/nbproject/private/
