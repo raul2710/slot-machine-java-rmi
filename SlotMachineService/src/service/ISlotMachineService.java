@@ -27,7 +27,8 @@ public interface ISlotMachineService extends Remote {
     public abstract void updateDecreaseMoneyStorage(float value) throws RemoteException;
     public abstract void updateIncreaseMoneyStorage(float value) throws RemoteException;
     public abstract String getUserName() throws RemoteException;
-    public abstract int getUserSelect() throws RemoteException;
     public abstract void setUserSelect(int indexUser) throws RemoteException;
-    
+    public abstract boolean authenticator(String email, String password) throws RemoteException;
+    public abstract void addUser(String name, String email, float money, String password) throws RemoteException;   
+    public abstract int getUserIndexByEmail(String email) throws RemoteException;   
 }

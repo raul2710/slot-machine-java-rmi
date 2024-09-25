@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Random;
 import model.Play;
 import model.User;
+import util.EncryptUtil;
 
 /**
  *
@@ -97,9 +98,7 @@ public class Server extends UnicastRemoteObject implements ISlotMachineService {
 
     @Override
     public void addPlayToHistory(int[] plays) throws RemoteException {
-        
         Play play = new Play(plays);
-        
         this.user.get(userSelect).addPlay(play);
     }
 
@@ -121,12 +120,33 @@ public class Server extends UnicastRemoteObject implements ISlotMachineService {
     }
     
     @Override
-    public int getUserSelect() {
-        return userSelect;
+    public void setUserSelect(int userSelect) throws RemoteException {
+        this.userSelect = userSelect;
+    }
+
+    @Override
+    public void addUser(String name, String email, float money, String password) throws RemoteException {
+        user.add(new User(name, email, money, password));
+    }
+
+    @Override
+    public boolean authenticator(String email, String password) throws RemoteException {
+        String passwordEncrypt = EncryptUtil.toMD5(password);
+        for (User u : this.user) {
+            if(u.getEmail().equals(email) && u.getPassword().equals(passwordEncrypt))return true;
+            System.out.println("");
+        }
+        
+        return false;
     }
     
     @Override
-    public void setUserSelect(int userSelect) {
-        this.userSelect = userSelect;
+    public int getUserIndexByEmail(String email) throws RemoteException {
+        
+        for (int i=0; i<user.size(); i++) {
+            if(user.get(i).getEmail().equals(email))return i;
+        }
+        
+        return -1;
     }
 }

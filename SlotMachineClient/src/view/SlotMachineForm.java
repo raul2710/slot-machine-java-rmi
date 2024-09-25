@@ -4,19 +4,16 @@
  */
 package view;
 
-import java.awt.Dimension;
 import java.net.URL;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import javax.swing.Icon;
-import javax.swing.JInternalFrame;
-import model.Play;
-import model.User;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import service.ISlotMachineService;
-import static service.ISlotMachineService.HOST;
-import static service.ISlotMachineService.NAME;
-import static service.ISlotMachineService.PORT;
+import static service.ISlotMachineService.*;
+
 
 /**
  *
@@ -27,16 +24,21 @@ public class SlotMachineForm extends javax.swing.JFrame {
     /**
      * Creates new form SlotMachineForm
      */
-    private int userSelect = 2;
+    private int userSelectIndex;
     
     public SlotMachineForm() {
+        initComponents();
+        
+    }
+    public SlotMachineForm(String emailLogged) {
         initComponents();
         
         try {
             Registry srv = LocateRegistry.getRegistry(HOST,PORT);
             ISlotMachineService op = (ISlotMachineService)srv.lookup(NAME);
             
-            op.setUserSelect(userSelect);
+            this.userSelectIndex = op.getUserIndexByEmail(emailLogged);
+            op.setUserSelect(userSelectIndex);
             
             lblName.setText(op.getUserName());
             lblMoney.setText(op.getMoneyStorage());
@@ -174,42 +176,47 @@ public class SlotMachineForm extends javax.swing.JFrame {
 
     private void btnStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartActionPerformed
         // TODO add your handling code here:
-        try {
-            Registry srv = LocateRegistry.getRegistry(HOST,PORT);
-            ISlotMachineService op = (ISlotMachineService)srv.lookup(NAME);
-            
-            op.setUserSelect(userSelect);
-            
-            int[] randomNumbers = op.getRandomNumbers();
-            
-            op.addPlayToHistory(randomNumbers);
-            
-            String[] randomImages = {
-                "/images/img_cat5.png",
-                "/images/img_tiger4.png",
-                "/images/img_tiger3.png",
-                "/images/img_bunny2.png",
-                "/images/img_monkey1.png",
-            };
-            
-            float betAmount = Float.parseFloat(txtBetAmount.getText());
-            
-            if (randomNumbers[0] == randomNumbers[1] && randomNumbers[1] == randomNumbers[2]) {
-                lblResult.setText("Congratss, you win the king cookie");
-                op.updateIncreaseMoneyStorage(betAmount);
-            } else {
-                lblResult.setText("");
-                op.updateDecreaseMoneyStorage(betAmount);
+        if (!txtBetAmount.getText().isEmpty()) {
+            try {
+                Registry srv = LocateRegistry.getRegistry(HOST,PORT);
+                ISlotMachineService op = (ISlotMachineService)srv.lookup(NAME);
+
+                op.setUserSelect(userSelectIndex);
+
+                int[] randomNumbers = op.getRandomNumbers();
+
+                op.addPlayToHistory(randomNumbers);
+
+                String[] randomImages = {
+                    "/images/img_cat5.png",
+                    "/images/img_tiger4.png",
+                    "/images/img_tiger3.png",
+                    "/images/img_bunny2.png",
+                    "/images/img_monkey1.png",
+                };
+
+                float betAmount = Float.parseFloat(txtBetAmount.getText());
+
+                if (randomNumbers[0] == randomNumbers[1] && randomNumbers[1] == randomNumbers[2]) {
+                    lblResult.setText("Congratss, you win the king cookie");
+                    op.updateIncreaseMoneyStorage(betAmount);
+                } else {
+                    lblResult.setText("");
+                    op.updateDecreaseMoneyStorage(betAmount);
+                }
+
+                lblImage1.setIcon(new javax.swing.ImageIcon(getClass().getResource(randomImages[randomNumbers[0]])));
+                lblImage2.setIcon(new javax.swing.ImageIcon(getClass().getResource(randomImages[randomNumbers[1]])));
+                lblImage3.setIcon(new javax.swing.ImageIcon(getClass().getResource(randomImages[randomNumbers[2]])));
+
+                lblMoney.setText(op.getMoneyStorage());
+
+            } catch (Exception e) {
+                System.err.println("ERRO: " + e.getMessage());
             }
-            
-            lblImage1.setIcon(new javax.swing.ImageIcon(getClass().getResource(randomImages[randomNumbers[0]])));
-            lblImage2.setIcon(new javax.swing.ImageIcon(getClass().getResource(randomImages[randomNumbers[1]])));
-            lblImage3.setIcon(new javax.swing.ImageIcon(getClass().getResource(randomImages[randomNumbers[2]])));
-            
-            lblMoney.setText(op.getMoneyStorage());
-            
-        } catch (Exception e) {
-            System.err.println("ERRO: " + e.getMessage());
+        } 
+        else {
+            JOptionPane.showMessageDialog(null, "Type a value that you want to bet", "Value empty", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnStartActionPerformed
 
@@ -220,11 +227,13 @@ public class SlotMachineForm extends javax.swing.JFrame {
             Registry srv = LocateRegistry.getRegistry(HOST,PORT);
             ISlotMachineService op = (ISlotMachineService)srv.lookup(NAME);
         
-            op.setUserSelect(userSelect);
-            
-            HistoryPlayForm hisToryPlayForm = new HistoryPlayForm(op.getHistoryPlay());
-            hisToryPlayForm.setLocationRelativeTo(this);
-            hisToryPlayForm.setVisible(true);
+            op.setUserSelect(userSelectIndex);
+                    
+            if (op.getHistoryPlay().isEmpty()) JOptionPane.showMessageDialog(null, "Empty History ");
+            else {
+                HistoryPlayForm hisToryPlayForm = new HistoryPlayForm(op.getHistoryPlay());
+                openFrame(hisToryPlayForm);
+            }
                         
         } catch (Exception e) {
             System.err.println("ERRO: " + e.getMessage());
@@ -284,4 +293,9 @@ public class SlotMachineForm extends javax.swing.JFrame {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
   
+    public void openFrame(JFrame f) {
+        f.setDefaultCloseOperation(f.DISPOSE_ON_CLOSE);
+        f.setLocationRelativeTo(this);
+        f.setVisible(true);
+    }
 }
