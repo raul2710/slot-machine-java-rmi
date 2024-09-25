@@ -6,7 +6,7 @@ package view;
 
 import java.util.List;
 import javax.swing.DefaultListModel;
-import model.Play;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,22 +15,29 @@ import model.Play;
 public class HistoryPlayForm extends javax.swing.JFrame {
 
     /**
-     * Creates new form Teste
+     * Creates new form HistoryPlayForm
      */
     public HistoryPlayForm() {
         initComponents();
+        
+        this.setTitle("Pesquisar Livro");
+        this.setResizable(false);
     }
-    public HistoryPlayForm(List<Play> historyPlays) {
+    
+    public HistoryPlayForm(List<String> historyPlays) {
         
         initComponents();
-        
-        DefaultListModel<String> l1 = new DefaultListModel<>();
-        
-        historyPlays.forEach(p -> {
-            l1.addElement(p.toString());
-        });
-        
-        listHistoryPlays.setModel(l1);
+               
+        if (historyPlays.isEmpty()) JOptionPane.showMessageDialog(null, "Empty History ");
+        else {
+            DefaultListModel<String> l1 = new DefaultListModel<>();
+
+            historyPlays.forEach(p -> {
+                l1.addElement(p);
+            });
+
+            listHistoryPlays.setModel(l1);
+        }
     }
 
     /**
@@ -42,18 +49,11 @@ public class HistoryPlayForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         listHistoryPlays = new javax.swing.JList<>();
-        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        listHistoryPlays.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(listHistoryPlays);
 
         jButton1.setText("Back");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -61,6 +61,8 @@ public class HistoryPlayForm extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
+
+        jScrollPane1.setViewportView(listHistoryPlays);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -118,7 +120,6 @@ public class HistoryPlayForm extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(HistoryPlayForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */

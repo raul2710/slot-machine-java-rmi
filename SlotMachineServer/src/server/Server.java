@@ -6,14 +6,16 @@ package server;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import service.ISlotMachineService;
 
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import model.Play;
+import model.User;
 
 /**
  *
@@ -22,40 +24,22 @@ import java.util.Random;
 public class Server extends UnicastRemoteObject implements ISlotMachineService {
        
     private final int DIFFICULTY = 10;
-    
+    private List<User> user = new ArrayList<>();
+    private int userSelect;
+
     public Server() throws RemoteException {
         super();
+        
+        user.add(new User("Raul Tavares Danielli", "raultavares27@outlook.com", 12.2f, "raulzito123"));
+        user.add(new User("Isabelle Massonetto", "isa26@outlook.com", 12.2f, "test132"));
+        user.add(new User("Fabiano Godine", "221fabin@outlook.com", 12.2f, "fabin213"));
     }
-
+    
     @Override
-    public String getHora() throws RemoteException {
-        DateTimeFormatter f = DateTimeFormatter.ofPattern("hh:mm:ss");
-        return f.format(LocalTime.now());
+    public LocalDateTime getLocalDateTime() throws RemoteException {
+        return LocalDateTime.now();
     }
-
-    @Override
-    public String getDataExtenso() throws RemoteException {
-        DateTimeFormatter f = DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy");
-        return f.format(LocalDate.now());
-    }
-
-    //
-    // EXECUÇÃO DO SERVER
-    //
-    public static void main(String[] args) {
-        try {
-            ISlotMachineService srv = new Server();
-
-            Registry rg = LocateRegistry.createRegistry(PORT);
-            rg.bind(NAME, srv);
-
-            System.out.println("Servidor " + NAME + " iniciado.");
-
-        } catch (Exception e) {
-            System.err.println("ERRO: " + e.getMessage());
-        }
-    }
-
+    
     @Override
     public int[] getRandomNumbers() throws RemoteException {
         int[] randomNumbers = new int[3];
@@ -72,4 +56,77 @@ public class Server extends UnicastRemoteObject implements ISlotMachineService {
         return randomNumbers;
     }
 
+    //
+    // EXECUÇÃO DO SERVER
+    //
+    public static void main(String[] args) {
+        
+        try {
+            ISlotMachineService srv = new Server();
+
+            Registry rg = LocateRegistry.createRegistry(PORT);
+            rg.bind(NAME, srv);
+
+            System.out.println("Servidor " + NAME + " iniciado.");
+
+        } catch (Exception e) {
+            System.err.println("ERRO: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public List<String> getHistoryPlay() throws RemoteException {
+        List<String> historyPlay = new ArrayList<>();
+
+        this.user.get(userSelect).getPlays().forEach(p -> {
+            historyPlay.add(p.toString());
+        });
+        
+        return historyPlay;
+    }
+
+    @Override
+    public String getMoneyStorage() throws RemoteException {
+        return Float.toString(this.user.get(userSelect).getMoney());
+    }
+
+//    @Override
+    public void addUser(User u) throws RemoteException {
+        this.user.add(u);
+    }
+
+    @Override
+    public void addPlayToHistory(int[] plays) throws RemoteException {
+        
+        Play play = new Play(plays);
+        
+        this.user.get(userSelect).addPlay(play);
+    }
+
+    @Override
+    public void updateDecreaseMoneyStorage(float value) throws RemoteException {
+        float updateMoney = this.user.get(userSelect).getMoney() - value;
+        this.user.get(userSelect).setMoney(updateMoney);
+    }
+    
+    @Override
+    public void updateIncreaseMoneyStorage(float value) throws RemoteException {
+        float updateMoney = this.user.get(userSelect).getMoney() + value;
+        this.user.get(userSelect).setMoney(updateMoney);
+    }
+
+    @Override
+    public String getUserName() throws RemoteException {
+        return this.user.get(userSelect).getName();
+    }
+    
+    @Override
+    public int getUserSelect() {
+        return userSelect;
+    }
+    
+    @Override
+    public void setUserSelect(int userSelect) {
+        this.userSelect = userSelect;
+    }
 }

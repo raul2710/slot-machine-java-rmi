@@ -4,7 +4,6 @@
  */
 package model;
 
-import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
@@ -18,9 +17,9 @@ public class Play {
     //private Timestamp playAt;
     private LocalDateTime playAt;
     
-    public Play(int[] randomNumbers, LocalDateTime playAt) {
+    public Play(int[] randomNumbers) {
         this.randomNumbers = randomNumbers;
-        this.playAt = playAt;
+        this.playAt = LocalDateTime.now();
     }
 
     public int[] getRandomNumbers() {
@@ -42,11 +41,11 @@ public class Play {
     @Override
     public String toString() {
         DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("HH:mm    dd/MM/uuuu");
-        String dateTime = formatterData.format(playAt);
+        String dateTime = formatterData.format(this.playAt);
         return 
-            randomNumbers[0] + "    " + 
-            randomNumbers[1] + "    " + 
-            randomNumbers[2] + "        " + 
+            this.randomNumbers[0] + "    " + 
+            this.randomNumbers[1] + "    " + 
+            this.randomNumbers[2] + "        " + 
             dateTime;
     }   
 }
