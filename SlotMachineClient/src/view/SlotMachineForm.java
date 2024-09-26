@@ -185,7 +185,7 @@ public class SlotMachineForm extends javax.swing.JFrame {
 
                 int[] randomNumbers = op.getRandomNumbers();
 
-                op.addPlayToHistory(randomNumbers);
+                op.addPlayToHistory(randomNumbers, Float.parseFloat(txtBetAmount.getText()));
 
                 String[] randomImages = {
                     "/images/img_cat5.png",
@@ -197,18 +197,19 @@ public class SlotMachineForm extends javax.swing.JFrame {
 
                 float betAmount = Float.parseFloat(txtBetAmount.getText());
 
+                lblImage1.setIcon(new javax.swing.ImageIcon(getClass().getResource(randomImages[randomNumbers[0]])));
+                lblImage2.setIcon(new javax.swing.ImageIcon(getClass().getResource(randomImages[randomNumbers[1]])));
+                lblImage3.setIcon(new javax.swing.ImageIcon(getClass().getResource(randomImages[randomNumbers[2]])));
+
                 if (randomNumbers[0] == randomNumbers[1] && randomNumbers[1] == randomNumbers[2]) {
-                    lblResult.setText("Congratss, you win the king cookie");
+                    JOptionPane.showMessageDialog(null, "Yeees You Win", "Win", JOptionPane.PLAIN_MESSAGE);
+
                     op.updateIncreaseMoneyStorage(betAmount);
                 } else {
                     lblResult.setText("");
                     op.updateDecreaseMoneyStorage(betAmount);
                 }
-
-                lblImage1.setIcon(new javax.swing.ImageIcon(getClass().getResource(randomImages[randomNumbers[0]])));
-                lblImage2.setIcon(new javax.swing.ImageIcon(getClass().getResource(randomImages[randomNumbers[1]])));
-                lblImage3.setIcon(new javax.swing.ImageIcon(getClass().getResource(randomImages[randomNumbers[2]])));
-
+                
                 lblMoney.setText(op.getMoneyStorage());
 
             } catch (Exception e) {

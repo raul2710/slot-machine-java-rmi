@@ -97,8 +97,8 @@ public class Server extends UnicastRemoteObject implements ISlotMachineService {
     }
 
     @Override
-    public void addPlayToHistory(int[] plays) throws RemoteException {
-        Play play = new Play(plays);
+    public void addPlayToHistory(int[] plays, float moneyBet) throws RemoteException {
+        Play play = new Play(plays, moneyBet);
         this.user.get(userSelect).addPlay(play);
     }
 

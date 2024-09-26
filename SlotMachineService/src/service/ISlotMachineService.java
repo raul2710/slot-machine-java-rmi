@@ -23,7 +23,7 @@ public interface ISlotMachineService extends Remote {
     public abstract LocalDateTime getLocalDateTime() throws RemoteException;
     public abstract List getHistoryPlay() throws RemoteException;
     public abstract String getMoneyStorage() throws RemoteException;
-    public abstract void addPlayToHistory(int[] plays) throws RemoteException;
+    public abstract void addPlayToHistory(int[] plays, float moneyBet) throws RemoteException;
     public abstract void updateDecreaseMoneyStorage(float value) throws RemoteException;
     public abstract void updateIncreaseMoneyStorage(float value) throws RemoteException;
     public abstract String getUserName() throws RemoteException;

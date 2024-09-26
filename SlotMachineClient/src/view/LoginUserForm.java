@@ -24,6 +24,7 @@ public class LoginUserForm extends javax.swing.JFrame {
         
         txtEmail.setText("isa26@outlook.com");
         txtPassword.setText("test132");
+        this.setLocationRelativeTo(null);
     }
     
     /**

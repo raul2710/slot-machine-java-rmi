@@ -14,11 +14,12 @@ import java.time.format.DateTimeFormatter;
 public class Play {
     
     private int[] randomNumbers;
-    //private Timestamp playAt;
+    private float moneyBet;
     private LocalDateTime playAt;
     
-    public Play(int[] randomNumbers) {
+    public Play(int[] randomNumbers, float moneyBet) {
         this.randomNumbers = randomNumbers;
+        this.moneyBet = moneyBet;
         this.playAt = LocalDateTime.now();
     }
 
@@ -28,6 +29,14 @@ public class Play {
 
     public void setRandomNumbers(int[] randomNumbers) {
         this.randomNumbers = randomNumbers;
+    }
+
+    public float getMoneyBet() {
+        return moneyBet;
+    }
+
+    public void setMoneyBet(float moneyBet) {
+        this.moneyBet = moneyBet;
     }
 
     public LocalDateTime getPlayAt() {
@@ -43,9 +52,11 @@ public class Play {
         DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("HH:mm    dd/MM/uuuu");
         String dateTime = formatterData.format(this.playAt);
         return 
-            this.randomNumbers[0] + "    " + 
-            this.randomNumbers[1] + "    " + 
-            this.randomNumbers[2] + "        " + 
+            "Value1: " +    
+            this.randomNumbers[0] + "       Value2: " + 
+            this.randomNumbers[1] + "       Value3: " + 
+            this.randomNumbers[2] + "       Money Bet: " + 
+            this.moneyBet + "   Time: " +
             dateTime;
     }   
 }
