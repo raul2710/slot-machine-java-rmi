@@ -71,4 +71,12 @@ public class User {
     public void addPlay(Play play) {
         this.plays.add(play);
     }
+    
+    public void popPlay() {
+        this.plays.removeFirst();
+    }
+    
+    public int listPlaySize() {
+        return this.plays.size();
+    }
 }
