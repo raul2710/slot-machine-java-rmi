@@ -62,12 +62,13 @@ public class SlotMachineForm extends javax.swing.JFrame {
         lblImage2 = new javax.swing.JLabel();
         lblImage3 = new javax.swing.JLabel();
         lblImage1 = new javax.swing.JLabel();
-        lblResult = new javax.swing.JLabel();
         lblName = new javax.swing.JLabel();
         lblMoney = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         txtBetAmount = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        btnAddMoney = new javax.swing.JToggleButton();
+        txtAddMoney = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -91,8 +92,6 @@ public class SlotMachineForm extends javax.swing.JFrame {
 
         lblImage1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        lblResult.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-
         lblName.setText("Name");
 
         lblMoney.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -105,6 +104,20 @@ public class SlotMachineForm extends javax.swing.JFrame {
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel1.setText("Bet amount ");
+
+        btnAddMoney.setText("Add Money");
+        btnAddMoney.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddMoneyActionPerformed(evt);
+            }
+        });
+
+        txtAddMoney.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtAddMoney.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtAddMoneyActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -126,14 +139,17 @@ public class SlotMachineForm extends javax.swing.JFrame {
                                         .addGap(363, 363, 363)
                                         .addComponent(lblMoney, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(lblResult, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(layout.createSequentialGroup()
                                                 .addComponent(lblImage1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(18, 18, 18)
                                                 .addComponent(lblImage2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(lblImage3, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addComponent(lblImage3, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(btnAddMoney)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(txtAddMoney, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addGap(18, 18, 18)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(btnStart, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
@@ -166,9 +182,11 @@ public class SlotMachineForm extends javax.swing.JFrame {
                         .addComponent(txtBetAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblResult, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnHistory))
-                .addContainerGap(27, Short.MAX_VALUE))
+                    .addComponent(btnHistory)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnAddMoney)
+                        .addComponent(txtAddMoney, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         pack();
@@ -206,7 +224,6 @@ public class SlotMachineForm extends javax.swing.JFrame {
 
                     op.updateIncreaseMoneyStorage(betAmount);
                 } else {
-                    lblResult.setText("");
                     op.updateDecreaseMoneyStorage(betAmount);
                 }
                 
@@ -240,6 +257,26 @@ public class SlotMachineForm extends javax.swing.JFrame {
             System.err.println("ERRO: " + e.getMessage());
         }
     }//GEN-LAST:event_btnHistoryActionPerformed
+
+    private void txtAddMoneyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAddMoneyActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtAddMoneyActionPerformed
+
+    private void btnAddMoneyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddMoneyActionPerformed
+        // TODO add your handling code here:
+        float addMoney = Float.parseFloat(txtAddMoney.getText());
+        try {
+            Registry srv = LocateRegistry.getRegistry(HOST,PORT);
+            ISlotMachineService op = (ISlotMachineService)srv.lookup(NAME);
+        
+            op.setUserSelect(userSelectIndex);
+            op.updateIncreaseMoneyStorage(addMoney);
+            lblMoney.setText(op.getMoneyStorage());
+                        
+        } catch (Exception e) {
+            System.err.println("ERRO: " + e.getMessage());
+        }
+    }//GEN-LAST:event_btnAddMoneyActionPerformed
 
     /**
      * @param args the command line arguments
@@ -277,6 +314,7 @@ public class SlotMachineForm extends javax.swing.JFrame {
     }
  
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton btnAddMoney;
     private javax.swing.JButton btnHistory;
     private javax.swing.JButton btnStart;
     private javax.swing.JLabel jLabel1;
@@ -286,7 +324,7 @@ public class SlotMachineForm extends javax.swing.JFrame {
     private javax.swing.JLabel lblImage3;
     private javax.swing.JLabel lblMoney;
     private javax.swing.JLabel lblName;
-    private javax.swing.JLabel lblResult;
+    private javax.swing.JTextField txtAddMoney;
     private javax.swing.JTextField txtBetAmount;
     // End of variables declaration//GEN-END:variables
 
